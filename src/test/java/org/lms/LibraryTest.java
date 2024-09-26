@@ -22,7 +22,7 @@ public class LibraryTest {
         library.addBook(book2);
     }
 
-
+    //Add Book Feature Tests
     //Test-1a For adding a unique book which is not already present.
     @Test
     public void testAddBook() {
@@ -50,6 +50,7 @@ public class LibraryTest {
 
 
 
+    //Borrow Book Feature Tests
     /**
      * Test-2a For Borrowing already present book in the library
      */
@@ -83,6 +84,56 @@ public class LibraryTest {
             library.borrowBook("123-202");
         });
         assertEquals("Book is already borrowed.", exception.getMessage());
+    }
+
+
+    //Return Book Feature Tests
+    //Test-3a Test case for returning a borrowed book
+    @Test
+    public void testReturnBook() {
+        //For Book 1
+        //Borrow book1 with ISBN "123-202"
+        library.borrowBook("123-202");
+
+        //Return book1 back to the library
+        library.returnBook("123-202");
+
+        //Assert that book1 is no longer borrowed after return
+        assertFalse(book1.isBorrowed());
+
+        //For Book 2
+        //Borrow book1 with ISBN "123-202"
+        library.borrowBook("123-203");
+
+        //Return book1 back to the library
+        library.returnBook("123-203");
+
+        //Assert that book2 is no longer borrowed after return
+        assertFalse(book2.isBorrowed());
+    }
+
+    //Test-3b : Test case for attempting to return a book that doesn't exist in the library
+    @Test
+    public void testReturnNonExistentBook() {
+        //Try to return a book with an ISBN that does not exist in the library
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook("978-455");// ISBN "978-455" does not exist
+        });
+
+        //Verify that the exception message is as expected
+        assertEquals("Book not found in the library.", exception.getMessage());
+    }
+
+    // Test-3c : Test case for returning a book that has not been borrowed yet
+    @Test
+    public void testReturnNonBorrowedBook() {
+        //Try to return book1 without borrowing it first
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook("123-202"); // Book not borrowed yet
+        });
+
+        //Verify that the exception message is as expected
+        assertEquals("Book wasn't borrowed.", exception.getMessage());
     }
 
 }
