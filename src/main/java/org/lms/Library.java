@@ -84,5 +84,20 @@ public class Library {
         book.returnBook();
     }
 
+    /**
+     * Views a list of available books in the library.
+     *
+     * @return a list of available books
+     */
+    public List<Book> viewAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<>();
+        for (Book book : books.values()) {
+            if (!book.isBorrowed()) {
+                availableBooks.add(book);
+            }
+        }
+        return availableBooks;
+    }
+
 }
 
