@@ -136,5 +136,40 @@ public class LibraryTest {
         assertEquals("Book wasn't borrowed.", exception.getMessage());
     }
 
+    @Test
+    public void testViewAvailableBooks() {
+        // Initialize and add additional books to the library for a more comprehensive test.
+        Book book3 = new Book("123-204", "Effective Java", "Joshua Bloch", 2008);
+        Book book4 = new Book("123-205", "The Pragmatic Programmer", "Andrew Hunt", 1999);
+
+        library.addBook(book3); // Adding book3 to the library
+        library.addBook(book4); // Adding book4 to the library
+
+        // Borrow one of the books (book1 with ISBN "123-202") from the library.
+        library.borrowBook("123-202");
+
+        // Assert that the size of the available books list is 3 (book1 is borrowed, so it shouldn't be in the list).
+        assertEquals(3, library.viewAvailableBooks().size(),
+                "After borrowing book1, the library should contain three available books.");
+
+        // Verify that book2 is still available in the library.
+        assertTrue(library.viewAvailableBooks().contains(book2),
+                "Library should still contain book2 as an available book.");
+
+        // Verify that book1 is not available in the library since it has been borrowed.
+        assertFalse(library.viewAvailableBooks().contains(book1),
+                "Library should not contain book1 as it has been borrowed.");
+
+        // Verify that book3 is available in the library.
+        assertTrue(library.viewAvailableBooks().contains(book3),
+                "Library should contain book3 as it hasn't been borrowed.");
+
+        // Verify that book4 is available in the library.
+        assertTrue(library.viewAvailableBooks().contains(book4),
+                "Library should contain book4 as it hasn't been borrowed.");
+    }
+
+
+
 }
 
