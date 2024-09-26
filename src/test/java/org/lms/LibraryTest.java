@@ -16,8 +16,10 @@ public class LibraryTest {
     @BeforeEach
     public void setUp() {
         library = new Library();
-        Book newBook = new Book("123-202", "Java", "Freeman", 2001); // Assuming quantity is also passed
-        library.addBook(newBook);
+        book1 = new Book("123-202", "Java", "Freeman", 2001);
+        book2 = new Book("123-203", "C", "Sahil", 2011);
+        library.addBook(book1);
+        library.addBook(book2);
     }
 
 
@@ -35,12 +37,38 @@ public class LibraryTest {
         // Assert that the book is in the library
         assertTrue(bookExists, "Library should contain the book with ISBN 123-201 after adding.");
     }
+
+
+    //Test-1b For adding a same book which is already present. in the library
     @Test
     public void testAddDuplicateBook() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             library.addBook(book1); // Adding the same book again
         });
         assertEquals("Book with ISBN 123-202 already exists.", exception.getMessage());
+    }
+
+    @Test
+    public void testBorrowBook() {
+        Book borrowedBook = library.borrowBook("123-202");
+        assertTrue(borrowedBook.isBorrowed());
+    }
+
+    @Test
+    public void testBorrowNonExistentBook() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.borrowBook("123-756");
+        });
+        assertEquals("Book not found in the library.", exception.getMessage());
+    }
+
+    @Test
+    public void testBorrowAlreadyBorrowedBook() {
+        library.borrowBook("123-202");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.borrowBook("123-202");
+        });
+        assertEquals("Book is already borrowed.", exception.getMessage());
     }
 
 }
