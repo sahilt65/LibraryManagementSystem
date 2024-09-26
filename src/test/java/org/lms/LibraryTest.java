@@ -48,12 +48,22 @@ public class LibraryTest {
         assertEquals("Book with ISBN 123-202 already exists.", exception.getMessage());
     }
 
+
+
+    /**
+     * Test-2a For Borrowing already present book in the library
+     */
     @Test
     public void testBorrowBook() {
         Book borrowedBook = library.borrowBook("123-202");
         assertTrue(borrowedBook.isBorrowed());
     }
 
+
+    /**
+     * Test-2b For Borrowing book which is not present in the library
+     * It checks for if the book is present in the library or not if not then @param borrowBook will return an error of IllegalArgumentException
+     */
     @Test
     public void testBorrowNonExistentBook() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -62,6 +72,10 @@ public class LibraryTest {
         assertEquals("Book not found in the library.", exception.getMessage());
     }
 
+
+    /**
+     * Test-2c For Borrowing book which is already borrowed
+     */
     @Test
     public void testBorrowAlreadyBorrowedBook() {
         library.borrowBook("123-202");

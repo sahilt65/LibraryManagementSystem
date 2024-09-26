@@ -35,5 +35,25 @@ public class Library {
         books.put(book.getIsbn(), book);
     }
 
+
+    /**
+     * Borrows a book from the library.
+     *
+     * @param isbn the ISBN of the book to borrow
+     * @return the borrowed book
+     * @throws IllegalArgumentException if the book is not found or already borrowed
+     */
+    public Book borrowBook(String isbn) {
+        Book book = books.get(isbn);
+        if (book == null) {
+            throw new IllegalArgumentException("Book not found in the library.");
+        }
+        if (book.isBorrowed()) {
+            throw new IllegalArgumentException("Book is already borrowed.");
+        }
+        book.borrowBook();
+        return book;
+    }
+
 }
 

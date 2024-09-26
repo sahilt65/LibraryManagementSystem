@@ -30,5 +30,23 @@ public class Book {
     public int getYear() {
         return year;
     }
+
+    public boolean isBorrowed() {
+        return isBorrowed;
+    }
+
+    //Marks the book as borrowed.
+    public void borrowBook() {
+        if (!isBorrowed) {
+            isBorrowed = true;
+        }
+    }
+
+    //Marks the book as returned.
+    public void returnBook() {
+        if (isBorrowed) {
+            isBorrowed = false;
+        }
+    }
 }
 
